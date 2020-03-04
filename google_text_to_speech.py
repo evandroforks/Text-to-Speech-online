@@ -1,22 +1,31 @@
 import os
+import re
 from gtts import gTTS
+from gtts.lang import tts_langs
 
-text_data = \
+input_text = \
 """
 
-
-
-concert
-
+σ
 
 """
 
-#Saving part starts from here
-tts = gTTS(text_data, lang='en')
-tts.save("saved_file.mp3")
-print("File saved!")
+langs = tts_langs('com')
+# print( 'langs', langs ); raise
 
-#Playing Audio File
-print("Playing Audio")
-os.system("saved_file.mp3")
-print("Done Playing")
+languages = [
+    'en',
+    'el',
+    'pt-br',
+]
+
+trimmed_text =  re.sub( r'\s', '', input_text )[:50]
+
+for lang in languages:
+    filename = "D:\\User\\Downloads\\gtts_%s_%s.mp3" % ( trimmed_text, lang )
+
+    tts = gTTS( input_text, lang=lang )
+    tts.save( filename )
+
+    print( "Playing Audio '%s'" % filename )
+    os.system( filename )
